@@ -56,7 +56,15 @@ class RemoteInterface {
   handleNewClient(client) {
     // process.stdout.write('\x07')
     client.setEncoding('utf8')
+
+    this.clients.forEach(client => {
+      client.write(`A new player has joined the game.\nThere are now ${this.clients.length + 1} players.`)
+    });
     this.clients.push(client)
+
+    client.write(`You are player number ${this.clients.length}`)
+
+
     this.resetIdleTimer(client, MAX_IDLE_TIMEOUT / 2)
 
     if (this.newClientHandler) this.newClientHandler(client)
